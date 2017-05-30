@@ -13,13 +13,13 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Actividad"
+        android:text="@string/actividad_txt"
 
         />
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Pagado por:"
+        android:text="@string/pagador_txt"
         />
 
     <EditText
@@ -31,7 +31,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Euros"
+        android:text="@string/precio_txt"
         />
     <EditText
         android:layout_width="match_parent"

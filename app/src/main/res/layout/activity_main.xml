@@ -15,20 +15,20 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/btnBotelym"
-        android:text="BOTE"
+        android:text="@string/bote_txt"
         />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/btnParticipanteslym"
-        android:text="VER PARTICIPANTES"
+        android:text="@string/ver_participantes_txt"
         />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/btnActividadlym"
-        android:text="INSERTAR ACTIVIDAD"
+        android:text="@string/insertar_actividad_txt"
         />
 </LinearLayout>
