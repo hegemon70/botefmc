@@ -5,8 +5,11 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import java.util.ArrayList;
+
 public class Participantes extends AppCompatActivity {
-Button btnVolver;
+    Button btnVolver;
+    ArrayList<Participante> ArlParticipantes = new ArrayList();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -19,5 +22,10 @@ Button btnVolver;
                 finish();
             }
         });
+    }
+
+    private void rellenoParticipantes(){
+        Participante par1 =new Participante("FERNANDO",0);
+        ArlParticipantes.add(par1);
     }
 }
