@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 public class Participantes extends AppCompatActivity {
     Button btnVolver;
-    ArrayList<Participante> ArlParticipantes = new ArrayList();
+    ArrayList<Participante> arlParticipantes = new ArrayList();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,7 +25,11 @@ public class Participantes extends AppCompatActivity {
     }
 
     private void rellenoParticipantes(){
-        Participante par1 =new Participante("FERNANDO",0);
-        ArlParticipantes.add(par1);
+        Participante par1 =new Participante("Fernando",0f);
+        Participante par2 =new Participante("Luis",0f);
+        Participante par3 =new Participante("Tomas",0f);
+        Participante par4 =new Participante("Guillermo",0f);
+        Participante psr5 =new Participante("Toño",0f);
+        arlParticipantes.add(par1);
     }
 }

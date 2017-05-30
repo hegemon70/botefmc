@@ -20,6 +20,13 @@ public class Participante {
 
     }
 
+    public Participante(String strNombre, int id, float floSaldo) {
+        this.strNombre = strNombre;
+        this.id = id;
+        this.floSaldo = floSaldo;
+        this.booEsPositivo = true;
+    }
+
     public String getStrNombre() {
         return strNombre;
     }
