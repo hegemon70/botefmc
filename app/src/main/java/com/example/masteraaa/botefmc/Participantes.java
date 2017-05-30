@@ -4,10 +4,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ListView;
 
 import java.util.ArrayList;
 
 public class Participantes extends AppCompatActivity {
+    ListView listaPadrePart;
     Button btnVolver;
     ArrayList<Participante> arlParticipantes = new ArrayList();
     @Override
@@ -15,6 +17,7 @@ public class Participantes extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_participantes);
 
+        listaPadrePart=(ListView)findViewById(R.id.lisParticipanteslyp);
         btnVolver=(Button)findViewById(R.id.btnVolverlyp);
         btnVolver.setOnClickListener(new View.OnClickListener() {
             @Override

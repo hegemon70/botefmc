@@ -16,18 +16,25 @@
         android:text="@string/actividad_txt"
 
         />
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/ediActividadlyan"
+
+        />
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/pagador_txt"
         />
 
-    <EditText
-        android:layout_width="match_parent"
+    <Spinner
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/ediPagadoporlyan"
+        android:id="@+id/spiPagadorlyan">
+    </Spinner>
 
-        />
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

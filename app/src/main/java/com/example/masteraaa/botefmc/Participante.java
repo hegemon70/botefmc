@@ -10,6 +10,7 @@ public class Participante {
     private int id;
     private float floSaldo;
     private boolean booEsPositivo;
+    private int intIcono;
 
 
     public Participante(String nombre,float saldo){
@@ -17,6 +18,7 @@ public class Participante {
         this.floSaldo=saldo;
         this.booEsPositivo=true;
         this.id=0;
+        this.intIcono=0;
 
     }
 
@@ -24,7 +26,16 @@ public class Participante {
         this.strNombre = strNombre;
         this.id = id;
         this.floSaldo = floSaldo;
+        this.intIcono=0;
         this.booEsPositivo = true;
+    }
+
+    public int getIntIcono() {
+        return intIcono;
+    }
+
+    public void setIntIcono(int intIcono) {
+        this.intIcono = intIcono;
     }
 
     public String getStrNombre() {
