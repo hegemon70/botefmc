@@ -38,4 +38,15 @@
         android:layout_height="wrap_content"
         android:id="@+id/ediEuroslyan" />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/btnInsertarlyan"
+        android:text="@string/insertar_txt"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/btnVolverlyan"
+        android:text="@string/volver_txt"/>
 </LinearLayout>

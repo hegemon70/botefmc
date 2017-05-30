@@ -13,8 +13,11 @@ public class Actividades extends AppCompatActivity implements View.OnClickListen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_actividades);
 
-       btnAnyadir =(Button)findViewById(R.id.btnAnyadirlya);
+        btnAnyadir =(Button)findViewById(R.id.btnAnyadirlya);
         btnVolver=(Button)findViewById(R.id.btnVolverlya);
+
+        btnAnyadir.setOnClickListener(this);
+        btnVolver.setOnClickListener(this);
     }
 
     @Override
