@@ -4,11 +4,20 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 public class ActividadNueva extends AppCompatActivity implements View.OnClickListener{
-Button btnVolver,btnInsertar;
+    Button btnVolver,btnInsertar;
+    Spinner spPagadores;
+    Participante pagador;
+    String strPagador;
+    ArrayList<Participante> arlParticipantes = new ArrayList();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -16,7 +25,36 @@ Button btnVolver,btnInsertar;
 
         btnInsertar=(Button)findViewById(R.id.btnInsertarlyan);
         btnVolver=(Button)findViewById(R.id.btnVolverlyan);
+        spPagadores=(Spinner)findViewById(R.id.spiPagadorlyan);
 
+        rellenoParticipantes(true);
+        //declaro vector del tamaño del arraylist
+        String vecNombres[]=new String[arlParticipantes.size()];
+        for (int i=0;i<arlParticipantes.size();i++){
+            vecNombres[i]=arlParticipantes.get(i).getStrNombre();
+        }
+        /*
+        for(Participante cursor: arlParticipantes)
+        {
+            vecNonbre[]
+        }*/
+
+        ArrayAdapter<String> adaptador=new ArrayAdapter<String>(this,android.R.layout.simple_spinner_dropdown_item,vecNombres);
+        spPagadores.setAdapter(adaptador);
+        spPagadores.setSelection(0);
+
+
+        spPagadores.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                strPagador=String.valueOf(parent.getItemAtPosition(position));
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
         btnInsertar.setOnClickListener(this);
         btnVolver.setOnClickListener(this);
 
@@ -33,5 +71,24 @@ Button btnVolver,btnInsertar;
                 finish();
                 break;
         }
+    }
+    private void rellenoParticipantes(boolean test){
+        if (test) {
+            Participante par1 = new Participante("Fernando", 0f, R.drawable.usuario_bn);
+            Participante par2 = new Participante("Luis", 0f, R.drawable.usuario_bn);
+            Participante par3 = new Participante("Tomas", 0f, R.drawable.usuario_bn);
+            Participante par4 = new Participante("Guillermo", 0f, R.drawable.usuario_bn);
+            Participante par5 = new Participante("Toño", 0f, R.drawable.usuario_bn);
+            arlParticipantes.add(par1);
+            arlParticipantes.add(par2);
+            arlParticipantes.add(par3);
+            arlParticipantes.add(par4);
+            arlParticipantes.add(par5);
+        }
+        else{
+            Participante vacio = new Participante("No hay Participantes",0f);
+            arlParticipantes.add(vacio);
+        }
+
     }
 }
