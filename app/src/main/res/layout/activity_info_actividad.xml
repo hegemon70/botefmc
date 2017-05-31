@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayoutLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.masteraaa.botefmc.InfoActividad">
+
+     <ImageView
+         android:layout_width="96dp"
+         android:layout_height="96dp"
+         android:id="@+id/imgActividadlyia"
+         android:src="@drawable/actividad"
+         />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/nombreActividadlyia"
+        android:layout_toRightOf="@id/imgActividadlyia"
+        android:layout_alignTop="@id/imgActividadlyia"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/pagadorActividadlyia"
+        android:layout_toRightOf="@id/imgActividadlyia"
+        android:layout_alignBottom="@id/imgActividadlyia"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/precioActividadlyia"
+        android:layout_toRightOf="@id/pagadorActividadlyia"
+        android:layout_alignBottom="@id/imgActividadlyia"
+        />
+</RelativeLayoutLayout>

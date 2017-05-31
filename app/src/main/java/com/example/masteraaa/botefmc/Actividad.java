@@ -9,13 +9,26 @@ public class Actividad {
     private String strNombre;
     private int intIdPagador;
     private float floPrecio;
+    private int intIcono;
 
-    public Actividad(String nombre,int idPagador,float precio)
+
+
+    public Actividad(String nombre, int idPagador, float precio)
     {
         this.strNombre=nombre;
         this.intIdPagador=idPagador;
         this.floPrecio=precio;
         this.IdActividad=0;
+        this.intIcono=0;
+    }
+
+    public Actividad(String nombre, int idPagador, float precio,int icono)
+    {
+        this.strNombre=nombre;
+        this.intIdPagador=idPagador;
+        this.floPrecio=precio;
+        this.IdActividad=0;
+        this.intIcono=icono;
     }
 
     public int getIntIdActividad() {
@@ -48,5 +61,21 @@ public class Actividad {
 
     public void setFloPrecio(float floPrecio) {
         this.floPrecio = floPrecio;
+    }
+
+    public String getStrPrecio() {
+       String strPrecio="*";
+        try{
+            strPrecio=String.valueOf(floPrecio);
+        }catch(Exception e){strPrecio="error cast float";}
+
+        return strPrecio;
+    }
+    public int getIntIcono() {
+        return intIcono;
+    }
+
+    public void setIntIcono(int intIcono) {
+        this.intIcono = intIcono;
     }
 }

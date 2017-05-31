@@ -29,6 +29,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/btnActividadlym"
-        android:text="@string/insertar_actividad_txt"
+        android:text="@string/ver_actividad_txt"
         />
 </LinearLayout>
