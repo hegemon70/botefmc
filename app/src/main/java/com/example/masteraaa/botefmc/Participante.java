@@ -30,6 +30,14 @@ public class Participante {
         this.booEsPositivo = true;
     }
 
+    public Participante(String strNombre, float floSaldo, int icono) {
+        this.strNombre = strNombre;
+        this.id = 0;
+        this.floSaldo = floSaldo;
+        this.intIcono=icono;
+        this.booEsPositivo = true;
+    }
+
     public int getIntIcono() {
         return intIcono;
     }
@@ -66,7 +74,14 @@ public class Participante {
         return booEsPositivo;
     }
 
-    public void setBooEsPositivo(boolean booEsPositivo) {
+    public void setBooEsPositivo(boolean boEsPositivo) {
         this.booEsPositivo = booEsPositivo;
     }
+   /*
+    private void calculaComoMostrar(){
+        if (this.isBooEsPositivo()
+                this.intIcono=
+                )
+    }
+    */
 }

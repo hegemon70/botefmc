@@ -18,7 +18,8 @@
         <activity android:name=".Bote" />
         <activity android:name=".Participantes" />
         <activity android:name=".Actividades" />
-        <activity android:name=".ActividadNueva"></activity>
+        <activity android:name=".ActividadNueva" />
+        <activity android:name=".InfoParticipante"></activity>
     </application>
 
 </manifest>
