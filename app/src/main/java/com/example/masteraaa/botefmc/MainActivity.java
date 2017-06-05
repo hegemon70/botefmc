@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -16,6 +17,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     Button btnBote,btnParticipante,btnActividades;
     SQLiteDatabase db;
     Boolean debug=true;
+    Boolean reset=false;
+    Boolean autoRelleno=false;
     ArrayList<Participante> arlParticipantes = new ArrayList();
     ArrayList<Actividad> arlActividades =new ArrayList<Actividad>();
     @Override
@@ -33,11 +36,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnParticipante.setOnClickListener(this);
         btnActividades.setOnClickListener(this);
         Conexion conexion = new Conexion(this,"BoteDB",null,1);
-        if (debug){
+        if (autoRelleno){
             db=conexion.getWritableDatabase();
             seed(db);
             db.close();
-
+        }
+        if (reset){
+            db=conexion.getWritableDatabase();
+            vaciaTablas();
+            db.close();
         }
 
     }
@@ -46,40 +53,103 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
         Intent i;
+        Bundle datos=new Bundle();
+        datos.putBoolean("DEBUG",debug);
+        //datos.putDouble("PESO",peso);
+        //datos.putDouble("ALTURA",altura);
+        //datos.putChar("SEXO",sexo);
+
+
         switch (v.getId()){
             case R.id.btnBotelym:
                 i =new Intent(this,Bote.class);
+                // ASOCIO EL BUNDLE AL INTENT
+                i.putExtras(datos);
                 startActivity(i);
                 break;
             case R.id.btnParticipanteslym:
                 i =new Intent(this,Participantes.class);
+                // ASOCIO EL BUNDLE AL INTENT
+                i.putExtras(datos);
                 startActivity(i);
                 break;
             case R.id.btnActividadlym:
                 i =new Intent(this,Actividades.class);
+                // ASOCIO EL BUNDLE AL INTENT
+                i.putExtras(datos);
                 startActivity(i);
                 break;
         }
     }
-    public void seed(SQLiteDatabase db){
+    public void seed(SQLiteDatabase db)
+    {
+        String queries="";
+/*
+        if (!vaciaTablas()){
+            if (debug)
+                Toast.makeText(this, "tablas sin vaciar" , Toast.LENGTH_LONG).show();
 
-        db.execSQL(dameSQLParticipantes(true));
-        Cursor c=db.rawQuery("SELECT id FROM Participantes",null);
-        int[] vecIdPar=new int [c.getCount()];//vector de ids de participantes
-        //recorro participantos extrayebdo su id
-        if (c.moveToFirst()){
-            int i=0;
-            do{
-                vecIdPar[i]=c.getInt(0);
-            }while(c.moveToNext());
+        }*/
+        vaciaTablas();
+        queries=dameSQLParticipantes(true);
+        if (queries.length()>0)//query no vacia
+        {
+            String[] vecQueries = queries.split(";");
+            if (debug)
+                Toast.makeText(this, " hay "+ vecQueries.length +" queries "+queries , Toast.LENGTH_LONG).show();
+
+            for(int j=0; j<vecQueries.length;j++)
+            {
+                try {
+                    db.execSQL(vecQueries[j]);//aqui rellenamos Tabla participantes
+                } catch (Exception e) {
+                    if (debug)
+                        Toast.makeText(this, "fallo en la query "+(j+1)+" ;"+e.getMessage().toString(), Toast.LENGTH_LONG).show();
+                }
+            }
+            Cursor c=db.rawQuery("SELECT id FROM Participantes",null);
+            int[] vecIdPar=new int [c.getCount()];//vector de ids de participantes
+            //recorro participantos extrayebdo su id
+            if (c.moveToFirst()){
+                int i=0;
+                do{
+                    vecIdPar[i]=c.getInt(0);
+                }while(c.moveToNext());
+
+            }
+            dameSQLrellenoActividades(true,vecIdPar);
 
         }
-        dameSQLrellenoActividades(true,vecIdPar);
+        else
+        {
+            Toast.makeText(this, "query Participantes vacia" , Toast.LENGTH_SHORT).show();
+        }
+
 
     }
 
-
-
+    private void vaciaTablas() {
+        String queryVaciaTablaActividades = "DELETE FROM actividades";
+        String queryVaciaTablaParticipantes = "DELETE FROM participantes";
+       // String Table_Name1= "actividades"
+        try {
+            db.execSQL(queryVaciaTablaActividades);
+        } catch (Exception e) {
+            if (debug) {
+                Toast.makeText(this, "fallo al borrar tabla actividades: " + e.getMessage().toString(), Toast.LENGTH_SHORT);
+            }
+        }
+        try {
+            db.execSQL(queryVaciaTablaParticipantes);
+        } catch (Exception e) {
+            if (debug) {
+                Toast.makeText(this, "fallo al borrar tabla participantes: " + e.getMessage().toString(), Toast.LENGTH_SHORT);
+            }
+        }
+      /*  Cursor c=db.rawQuery("SELECT * FROM Participantes",null);
+        Cursor c1=db.rawQuery("SELECT * FROM Actividades",null);
+        return (c.getCount()==0) && (c1.getCount()==0) ;*/
+    }
     /*pre: debe haberse insertado los participantes anteriormente*/
     private void dameSQLrellenoActividades(boolean test,int[] ids)
     {
@@ -121,7 +191,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private String dameSQLParticipantes(boolean test){
         String SQLIPar="";
         if (test) {
-
             Participante par1 = new Participante("Fernando", 0f, R.drawable.usuario_bn);
             Participante par2 = new Participante("Luis", 0f, R.drawable.usuario_bn);
             Participante par3 = new Participante("Tomas", 0f, R.drawable.usuario_bn);
@@ -133,7 +202,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             arlParticipantes.add(par4);
             arlParticipantes.add(par5);
 
-            for(int i=0; i>arlParticipantes.size();i++)
+            for(int i=0; i<arlParticipantes.size();i++)
             {
                 SQLIPar+="INSERT INTO participantes (nombre,saldo,icono) VALUES ("
                         + "\""+ arlParticipantes.get(i).getStrNombre() +"\","
@@ -146,6 +215,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Participante vacio = new Participante("No hay Participantes",0f);
             arlParticipantes.add(vacio);
         }
+        if(debug)
+            Toast.makeText(this, SQLIPar, Toast.LENGTH_LONG).show();
+
         return SQLIPar;
     }
 }

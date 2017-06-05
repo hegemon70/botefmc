@@ -6,14 +6,18 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 
-public class Participantes extends AppCompatActivity {
+public class Participantes extends AppCompatActivity implements View.OnClickListener
+{
+    boolean debug;//=true;
     ListView listaPadrePart;
-    Button btnVolver;
+    Button btnVolver,btnAñadir;
+    EditText edtNombre;
     SQLiteDatabase db;
     ArrayList<Participante> arlParticipantes = new ArrayList();
     @Override
@@ -21,38 +25,67 @@ public class Participantes extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_participantes);
 
-        listaPadrePart=(ListView)findViewById(R.id.lisParticipanteslyp);
-        btnVolver=(Button)findViewById(R.id.btnVolverlyp);
+        listaPadrePart = (ListView) findViewById(R.id.lisParticipanteslyp);
+        btnVolver = (Button) findViewById(R.id.btnVolverlyp);
+        btnAñadir = (Button) findViewById(R.id.btnAnyadirlyp);
+        edtNombre = (EditText) findViewById(R.id.ediNuevolyp);
 
+        // RECOJO LOS DATOS DEL INTENT
+        Bundle datos=getIntent().getExtras();
+        debug=datos.getBoolean("DEBUG");
+        leeParticipantes();
+        //rellenaArrayParticipantes(false);
 
-        rellenaArrayParticipantes(false);
-
-        Toast.makeText(this,"hay "+arlParticipantes.size()+" participantes",Toast.LENGTH_LONG).show();
-        final AdaptadorParticipante adaptador = new AdaptadorParticipante(this,arlParticipantes);
+        Toast.makeText(this, "hay " + arlParticipantes.size() + " participantes", Toast.LENGTH_LONG).show();
+        final AdaptadorParticipante adaptador = new AdaptadorParticipante(this, arlParticipantes);
         listaPadrePart.setAdapter(adaptador);
-        btnVolver.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+    }
+        @Override
+       public void onClick(View v)
+       {
+           switch (v.getId())
+           {
+               case R.id.btnVolverlyp:
+                        finish();
+                        break;
+               case R.id.btnAnyadirlyp:
+                       añadeParticipante(edtNombre.getText().toString());
+                       break;
+           }
+       }
 
+
+    private Boolean añadeParticipante(String txtNombre)
+    {   Boolean exito=true;
+
+        Toast.makeText(this, "entra en añadeParticipante", Toast.LENGTH_SHORT).show();
+        if (txtNombre.length()!=0)
+        {
+            Participante par = new Participante(txtNombre, 0f, R.drawable.usuario_bn);
+            arlParticipantes.add(par);
+            int i = arlParticipantes.size()-1;//i es el indice del ultimo añadido
+            String SQLIPar="";
+            SQLIPar+="INSERT INTO participantes (nombre,saldo,icono) VALUES ("
+                + "\""+ arlParticipantes.get(i).getStrNombre() +"\","
+                +  arlParticipantes.get(i).getFloSaldo() + ","
+                +  arlParticipantes.get(i).getIntIcono() + "); ";
+            try {
+                db.execSQL(SQLIPar);//aqui rellenamos Tabla participantes
+            } catch (Exception e) {
+                if (debug)
+                    Toast.makeText(this, "fallo en la query "+(i+1)+" ;"+e.getMessage().toString(), Toast.LENGTH_LONG).show();
+            }
+        }
+        else
+        {
+            exito=false;
+        }
+        return exito;
     }
 
-    private void rellenaArrayParticipantes(boolean test){
-        if (test) {
-            Participante par1 = new Participante("Fernando", 0f, R.drawable.usuario_bn);
-            Participante par2 = new Participante("Luis", 0f, R.drawable.usuario_bn);
-            Participante par3 = new Participante("Tomas", 0f, R.drawable.usuario_bn);
-            Participante par4 = new Participante("Guillermo", 0f, R.drawable.usuario_bn);
-            Participante par5 = new Participante("Toño", 0f, R.drawable.usuario_bn);
-            arlParticipantes.add(par1);
-            arlParticipantes.add(par2);
-            arlParticipantes.add(par3);
-            arlParticipantes.add(par4);
-            arlParticipantes.add(par5);
-        }
-        else{
+    private void leeParticipantes()//(boolean test)
+    {
+
             Conexion conexion = new Conexion(this,"BoteDB",null,1);
             db=conexion.getReadableDatabase();
             Cursor c=db.rawQuery("SELECT * FROM Participantes",null);
@@ -66,9 +99,7 @@ public class Participantes extends AppCompatActivity {
                 }while(c.moveToNext());
             }
             db.close();
-           /* Participante vacio = new Participante("No hay Participantes",0f);
-            arlParticipantes.add(vacio);*/
-        }
+
 
     }
 }
