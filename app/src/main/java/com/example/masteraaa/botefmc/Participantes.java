@@ -41,7 +41,10 @@ public class Participantes extends AppCompatActivity implements View.OnClickList
         // RECOJO LOS DATOS DEL INTENT
         Bundle datos=getIntent().getExtras();
         debug=datos.getBoolean("DEBUG");
-        leeParticipantes();
+        if(!leeParticipantes()){
+            Participante vacio = new Participante("No hay Participantes",0f);
+            arlParticipantes.add(vacio);
+        }
         //rellenaArrayParticipantes(false);
         if(debug)
             Toast.makeText(this, "hay " + arlParticipantes.size() + " participantes", Toast.LENGTH_LONG).show();
@@ -58,14 +61,19 @@ public class Participantes extends AppCompatActivity implements View.OnClickList
                         finish();
                         break;
                case R.id.btnAnyadirlyp:
-                       añadeParticipante(edtNombre.getText().toString());
+                      if(añadeParticipante(edtNombre.getText().toString())){
+                          finish();
+                      }
+                      else
+                          Toast.makeText(this, "introduce nombre del Compañero", Toast.LENGTH_SHORT).show();
+
                        break;
            }
        }
 
 
     private Boolean añadeParticipante(String txtNombre)
-    {   Boolean exito=true;
+    {   Boolean exito=false;
 
         //Toast.makeText(this, "entra en añadeParticipante", Toast.LENGTH_SHORT).show();
         if (txtNombre.length()!=0)
@@ -83,12 +91,17 @@ public class Participantes extends AppCompatActivity implements View.OnClickList
                 db=conexion.getWritableDatabase();
                 db.execSQL(SQLIPar);//aqui rellenamos Tabla participantes
                 db.close();
-            } catch (Exception e) {
-                if (debug) {
+                exito=true;
+            }
+            catch (Exception e)
+            {
+                if (debug)
+                {
                     Toast.makeText(this, "fallo en la query " + (i + 1) + " ;" + e.getMessage().toString(), Toast.LENGTH_LONG).show();
                     String fallo="fallo en la query " + (i + 1) + " ;" + e.getMessage().toString();
                     println(Log.ERROR,"fallo",fallo);
                 }
+                return exito;//false
             }
         }
         else
@@ -98,15 +111,16 @@ public class Participantes extends AppCompatActivity implements View.OnClickList
         return exito;
     }
 
-    private void leeParticipantes()//(boolean test)
+    private Boolean leeParticipantes()//(boolean test)
     {
-
+        boolean exito=false;
+        try{
             Conexion conexion = new Conexion(this,"BoteDB",null,1);
             db=conexion.getReadableDatabase();
             Cursor c=db.rawQuery("SELECT * FROM Participantes",null);
             Toast.makeText(this,"hay "+c.getCount()+" participantes",Toast.LENGTH_LONG).show();
             if (c.moveToFirst()){
-                int i=0;
+                //int i=0;
                 do{
                     //construimos un objeto participante que tenga id: 0, nombre: 1    ,saldo:2      ,icono:3
                     Participante partiAct =new Participante(c.getInt(0),c.getString(1),c.getFloat(2),c.getInt(3));
@@ -115,6 +129,14 @@ public class Participantes extends AppCompatActivity implements View.OnClickList
             }
             db.close();
 
+        }catch(Exception e){
+            if (debug)
+                Toast.makeText(this, "fallo al leer participantes "+e.getMessage().toString(), Toast.LENGTH_LONG).show();
+            db.close();
+        }
+        if (arlParticipantes.size()!=0)
+            exito=true;
 
+        return exito;
     }
 }

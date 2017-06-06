@@ -30,6 +30,14 @@ public class Actividad {
         this.IdActividad=0;
         this.intIcono=icono;
     }
+    public Actividad(int idActividad,String nombre, int idPagador, float precio,int icono)
+    {
+        this.strNombre=nombre;
+        this.intIdPagador=idPagador;
+        this.floPrecio=precio;
+        this.IdActividad=0;
+        this.intIcono=icono;
+    }
 
     public int getIntIdActividad() {
         return IdActividad;

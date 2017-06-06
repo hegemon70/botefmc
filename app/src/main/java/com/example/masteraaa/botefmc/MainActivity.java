@@ -51,7 +51,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
     @Override
-    public void onClick(View v) {
+    public void onClick(View v)
+    {
         Intent i;
         Bundle datos=new Bundle();
         datos.putBoolean("DEBUG",debug);
@@ -84,50 +85,64 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void seed(SQLiteDatabase db)
     {
         String queries="";
-/*
-        if (!vaciaTablas()){
+/*        if (!vaciaTablas()){
             if (debug)
                 Toast.makeText(this, "tablas sin vaciar" , Toast.LENGTH_LONG).show();
-
         }*/
         vaciaTablas();
         queries=dameSQLParticipantes(true);
         if (queries.length()>0)//query no vacia
         {
-            String[] vecQueries = queries.split(";");
-            if (debug)
-                Toast.makeText(this, " hay "+ vecQueries.length +" queries "+queries , Toast.LENGTH_LONG).show();
-
-            for(int j=0; j<vecQueries.length;j++)
-            {
-                try {
-                    db.execSQL(vecQueries[j]);//aqui rellenamos Tabla participantes
-                } catch (Exception e) {
-                    if (debug)
-                        Toast.makeText(this, "fallo en la query "+(j+1)+" ;"+e.getMessage().toString(), Toast.LENGTH_LONG).show();
-                }
-            }
+            ejecutaQueryMultipleDeAccion(queries);//creamos participantes
             Cursor c=db.rawQuery("SELECT id FROM Participantes",null);
             int[] vecIdPar=new int [c.getCount()];//vector de ids de participantes
             //recorro participantos extrayebdo su id
-            if (c.moveToFirst()){
+            if (c.moveToFirst())
+            {
                 int i=0;
-                do{
+                do
+                {
                     vecIdPar[i]=c.getInt(0);
-                }while(c.moveToNext());
+                }
+                while(c.moveToNext());
 
             }
-            dameSQLrellenoActividades(true,vecIdPar);
+            queries=dameSQLrellenoActividades(true,vecIdPar);
+            if (queries.length()!=0){
+                ejecutaQueryMultipleDeAccion(queries);//creamos Actividades
+            }
+            else
+            {
+                Toast.makeText(this, "query Accciones vacia" , Toast.LENGTH_SHORT).show();
+            }
 
         }
         else
         {
             Toast.makeText(this, "query Participantes vacia" , Toast.LENGTH_SHORT).show();
         }
-
-
     }
 
+    /**
+     * le pasamos un string con varias sentencias sql seguidas
+     * es necesario que las queries existan
+     * @param queries
+     */
+    private void ejecutaQueryMultipleDeAccion(String queries){
+        String[] vecQueries = queries.split(";");
+        if (debug)
+            Toast.makeText(this, " hay "+ vecQueries.length +" queries "+queries , Toast.LENGTH_LONG).show();
+
+        for(int j=0; j<vecQueries.length;j++)
+        {
+            try {
+                db.execSQL(vecQueries[j]);
+            } catch (Exception e) {
+                if (debug)
+                    Toast.makeText(this, "fallo en la query "+(j+1)+" ;"+e.getMessage().toString(), Toast.LENGTH_LONG).show();
+            }
+        }
+    }
     private void vaciaTablas() {
         String queryVaciaTablaActividades = "DELETE FROM actividades";
         String queryVaciaTablaParticipantes = "DELETE FROM participantes";
@@ -146,12 +161,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Toast.makeText(this, "fallo al borrar tabla participantes: " + e.getMessage().toString(), Toast.LENGTH_SHORT);
             }
         }
-      /*  Cursor c=db.rawQuery("SELECT * FROM Participantes",null);
-        Cursor c1=db.rawQuery("SELECT * FROM Actividades",null);
-        return (c.getCount()==0) && (c1.getCount()==0) ;*/
+
     }
     /*pre: debe haberse insertado los participantes anteriormente*/
-    private void dameSQLrellenoActividades(boolean test,int[] ids)
+    private String dameSQLrellenoActividades(boolean test,int[] ids)
     {
         int numParticipantes=ids.length;
         String SQLAct="";
@@ -187,6 +200,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Actividad vacia =new Actividad("sin actividades",0,0f);
             arlActividades.add(vacia);
         }
+        return SQLAct;
     }
     private String dameSQLParticipantes(boolean test){
         String SQLIPar="";

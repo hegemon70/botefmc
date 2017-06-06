@@ -1,6 +1,8 @@
 package com.example.masteraaa.botefmc;
 
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -18,6 +20,7 @@ public class ActividadNueva extends AppCompatActivity implements View.OnClickLis
     Participante pagador;
     String strPagador;
     ArrayList<Participante> arlParticipantes = new ArrayList();
+    SQLiteDatabase db;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,7 +30,7 @@ public class ActividadNueva extends AppCompatActivity implements View.OnClickLis
         btnVolver=(Button)findViewById(R.id.btnVolverlyan);
         spPagadores=(Spinner)findViewById(R.id.spiPagadorlyan);
 
-        rellenoParticipantes(true);
+        leeParticipantes();
         //declaro vector del tamaño del arraylist
         String vecNombres[]=new String[arlParticipantes.size()];
         for (int i=0;i<arlParticipantes.size();i++){
@@ -72,6 +75,7 @@ public class ActividadNueva extends AppCompatActivity implements View.OnClickLis
                 break;
         }
     }
+    /*
     private void rellenoParticipantes(boolean test){
         if (test) {
             Participante par1 = new Participante("Fernando", 0f, R.drawable.usuario_bn);
@@ -90,5 +94,22 @@ public class ActividadNueva extends AppCompatActivity implements View.OnClickLis
             arlParticipantes.add(vacio);
         }
 
+    }*/
+    private void leeParticipantes()//(boolean test)
+    {
+
+        Conexion conexion = new Conexion(this,"BoteDB",null,1);
+        db=conexion.getReadableDatabase();
+        Cursor c=db.rawQuery("SELECT * FROM Participantes",null);
+        Toast.makeText(this,"hay "+c.getCount()+" participantes",Toast.LENGTH_LONG).show();
+        if (c.moveToFirst()){
+            int i=0;
+            do{
+                //construimos un objeto participante que tenga id: 0, nombre: 1    ,saldo:2      ,icono:3
+                Participante partiAct =new Participante(c.getInt(0),c.getString(1),c.getFloat(2),c.getInt(3));
+                arlParticipantes.add(partiAct);
+            }while(c.moveToNext());
+        }
+        db.close();
     }
 }
