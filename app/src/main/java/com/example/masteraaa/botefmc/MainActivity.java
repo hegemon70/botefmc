@@ -19,6 +19,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     Boolean debug=true;
     Boolean reset=false;
     Boolean autoRelleno=false;
+    int version=4;
     ArrayList<Participante> arlParticipantes = new ArrayList();
     ArrayList<Actividad> arlActividades =new ArrayList<Actividad>();
     @Override
@@ -35,7 +36,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnBote.setOnClickListener(this);
         btnParticipante.setOnClickListener(this);
         btnActividades.setOnClickListener(this);
-        Conexion conexion = new Conexion(this,"BoteDB",null,1);
+        Conexion conexion = new Conexion(this,"BoteDB",null,version);
         if (autoRelleno){
             db=conexion.getWritableDatabase();
             seed(db);
@@ -103,6 +104,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 do
                 {
                     vecIdPar[i]=c.getInt(0);
+                    i++;
                 }
                 while(c.moveToNext());
 
@@ -130,14 +132,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      */
     private void ejecutaQueryMultipleDeAccion(String queries){
         String[] vecQueries = queries.split(";");
+        int limite=(vecQueries.length - 1);//el split da un ultimo elem vacio por el ; final
         if (debug)
-            Toast.makeText(this, " hay "+ vecQueries.length +" queries "+queries , Toast.LENGTH_LONG).show();
+            Toast.makeText(this, " hay "+ limite +" queries "+queries , Toast.LENGTH_LONG).show();
 
-        for(int j=0; j<vecQueries.length;j++)
+        for(int j=0; j<limite;j++)
         {
             try {
                 db.execSQL(vecQueries[j]);
-            } catch (Exception e) {
+            }
+            catch (Exception e)
+            {
                 if (debug)
                     Toast.makeText(this, "fallo en la query "+(j+1)+" ;"+e.getMessage().toString(), Toast.LENGTH_LONG).show();
             }
@@ -177,7 +182,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             arlActividades.add(act1);
             arlActividades.add(act2);
             arlActividades.add(act3);
-            for(int i=0; i>arlActividades.size();i++)
+            //int j=0; //indice para el indice del participante
+            for(int i=0; i<arlActividades.size();i++)
             {
 
                 SQLAct+="INSERT INTO actividades (nombre,idParticipante,precio,icono) VALUES ("
@@ -191,7 +197,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     //asignamos las restantes acitivdades al ultimo
                     SQLAct+= ids[numParticipantes -1] + ",";
                 }
-                SQLAct+=  arlActividades.get(i).getFloPrecio()
+                SQLAct+=  arlActividades.get(i).getFloPrecio() + ","
                         +  arlActividades.get(i).getIntIcono() + "); ";
             }
         }
