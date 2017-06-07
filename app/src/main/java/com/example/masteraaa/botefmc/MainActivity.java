@@ -16,9 +16,11 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     Button btnBote,btnParticipante,btnActividades;
     SQLiteDatabase db;
+    String bbdd="BoteDB1";
     Boolean debug=true;
     Boolean reset=false;
     Boolean autoRelleno=false;
+    //Boolean resetHard=true;//drop tables
     int version=4;
     ArrayList<Participante> arlParticipantes = new ArrayList();
     ArrayList<Actividad> arlActividades =new ArrayList<Actividad>();
@@ -36,7 +38,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnBote.setOnClickListener(this);
         btnParticipante.setOnClickListener(this);
         btnActividades.setOnClickListener(this);
-        Conexion conexion = new Conexion(this,"BoteDB",null,version);
+        Conexion conexion = new Conexion(this,bbdd,null,version);
         if (autoRelleno){
             db=conexion.getWritableDatabase();
             seed(db);
@@ -57,7 +59,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Intent i;
         Bundle datos=new Bundle();
         datos.putBoolean("DEBUG",debug);
-        //datos.putDouble("PESO",peso);
+        datos.putString("BBDD",bbdd);
+        datos.putInt("VERSION",version);
         //datos.putDouble("ALTURA",altura);
         //datos.putChar("SEXO",sexo);
 

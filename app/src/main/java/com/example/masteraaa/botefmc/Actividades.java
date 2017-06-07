@@ -17,6 +17,8 @@ public class Actividades extends AppCompatActivity implements View.OnClickListen
     ListView listaPadreActiv;
     Button btnAnyadir,btnVolver;
     ArrayList<Actividad> arlActividades =new ArrayList<Actividad>();
+    String bbdd;
+    int version;
     SQLiteDatabase db;
     Boolean debug;
     @Override
@@ -31,7 +33,8 @@ public class Actividades extends AppCompatActivity implements View.OnClickListen
         // RECOJO LOS DATOS DEL INTENT
         Bundle datos=getIntent().getExtras();
         debug=datos.getBoolean("DEBUG");
-
+        bbdd=datos.getString("BBDD");
+        version=datos.getInt("VERSION");
         //rellenoActividades(true);
        if(!leeActividades())//si no hay actividades
        {  Actividad actividad  =new Actividad(0,"No hay ninguna Actividad",-1,0.0f,R.drawable.actividad);
@@ -64,7 +67,7 @@ public class Actividades extends AppCompatActivity implements View.OnClickListen
     {
         Boolean exito=false;
         try{
-            Conexion conexion = new Conexion(this,"BoteDB",null,1);
+            Conexion conexion = new Conexion(this,bbdd,null,version);
             db=conexion.getReadableDatabase();
 
             Cursor c=db.rawQuery("SELECT * FROM actividades",null);

@@ -21,6 +21,8 @@ public class Participantes extends AppCompatActivity implements View.OnClickList
     ListView listaPadrePart;
     Button btnVolver,btnAñadir;
     EditText edtNombre;
+    String bbdd;
+    int version;
     SQLiteDatabase db;
     ArrayList<Participante> arlParticipantes = new ArrayList();
     @Override
@@ -41,6 +43,8 @@ public class Participantes extends AppCompatActivity implements View.OnClickList
         // RECOJO LOS DATOS DEL INTENT
         Bundle datos=getIntent().getExtras();
         debug=datos.getBoolean("DEBUG");
+        bbdd=datos.getString("BBDD");
+        version=datos.getInt("VERSION");
         if(!leeParticipantes()){
             Participante vacio = new Participante("No hay Participantes",0f);
             arlParticipantes.add(vacio);
@@ -87,7 +91,7 @@ public class Participantes extends AppCompatActivity implements View.OnClickList
                 +  arlParticipantes.get(i).getFloSaldo() + ","
                 +  arlParticipantes.get(i).getIntIcono() + "); ";
             try {
-                Conexion conexion = new Conexion(this,"BoteDB",null,1);
+                Conexion conexion = new Conexion(this,bbdd,null,version);
                 db=conexion.getWritableDatabase();
                 db.execSQL(SQLIPar);//aqui rellenamos Tabla participantes
                 db.close();
@@ -115,9 +119,9 @@ public class Participantes extends AppCompatActivity implements View.OnClickList
     {
         boolean exito=false;
         try{
-            Conexion conexion = new Conexion(this,"BoteDB",null,1);
+            Conexion conexion = new Conexion(this,bbdd,null,version);
             db=conexion.getReadableDatabase();
-            Cursor c=db.rawQuery("SELECT * FROM Participantes",null);
+            Cursor c=db.rawQuery("SELECT * FROM participantes",null);
             Toast.makeText(this,"hay "+c.getCount()+" participantes",Toast.LENGTH_LONG).show();
             if (c.moveToFirst()){
                 //int i=0;
