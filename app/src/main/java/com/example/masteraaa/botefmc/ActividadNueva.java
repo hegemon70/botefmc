@@ -1,5 +1,6 @@
 package com.example.masteraaa.botefmc;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -26,6 +27,7 @@ public class ActividadNueva extends AppCompatActivity implements View.OnClickLis
     SQLiteDatabase db;
     Bundle datos;
     Boolean debug;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -91,34 +93,43 @@ public class ActividadNueva extends AppCompatActivity implements View.OnClickLis
         switch (v.getId()) {
             case R.id.btnInsertarlyan:
                 //Toast.makeText(this, "aqui insertamos", Toast.LENGTH_SHORT).show();
-                if(insertaActividad())
+                if(insertaActividad()){
+                    i = new Intent();
+                    setResult(Activity.RESULT_OK,i);
                     finish();
+                }
+
                 break;
             case R.id.btnVolverlyan:
+                i = new Intent();
+                setResult(Activity.RESULT_CANCELED,i);
                 finish();
                 break;
         }
     }
-    /*
-    private void rellenoParticipantes(boolean test){
-        if (test) {
-            Participante par1 = new Participante("Fernando", 0f, R.drawable.usuario_bn);
-            Participante par2 = new Participante("Luis", 0f, R.drawable.usuario_bn);
-            Participante par3 = new Participante("Tomas", 0f, R.drawable.usuario_bn);
-            Participante par4 = new Participante("Guillermo", 0f, R.drawable.usuario_bn);
-            Participante par5 = new Participante("Toño", 0f, R.drawable.usuario_bn);
-            arlParticipantes.add(par1);
-            arlParticipantes.add(par2);
-            arlParticipantes.add(par3);
-            arlParticipantes.add(par4);
-            arlParticipantes.add(par5);
-        }
-        else{
-            Participante vacio = new Participante("No hay Participantes",0f);
-            arlParticipantes.add(vacio);
-        }
 
-    }*/
+
+
+    /*
+            private void rellenoParticipantes(boolean test){
+                if (test) {
+                    Participante par1 = new Participante("Fernando", 0f, R.drawable.usuario_bn);
+                    Participante par2 = new Participante("Luis", 0f, R.drawable.usuario_bn);
+                    Participante par3 = new Participante("Tomas", 0f, R.drawable.usuario_bn);
+                    Participante par4 = new Participante("Guillermo", 0f, R.drawable.usuario_bn);
+                    Participante par5 = new Participante("Toño", 0f, R.drawable.usuario_bn);
+                    arlParticipantes.add(par1);
+                    arlParticipantes.add(par2);
+                    arlParticipantes.add(par3);
+                    arlParticipantes.add(par4);
+                    arlParticipantes.add(par5);
+                }
+                else{
+                    Participante vacio = new Participante("No hay Participantes",0f);
+                    arlParticipantes.add(vacio);
+                }
+
+            }*/
   private Boolean insertaActividad(){
       Boolean exito=false;
       if (camposValidados())//todos los campos correctos

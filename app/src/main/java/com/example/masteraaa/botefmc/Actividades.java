@@ -1,5 +1,6 @@
 package com.example.masteraaa.botefmc;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -22,6 +23,7 @@ public class Actividades extends AppCompatActivity implements View.OnClickListen
     SQLiteDatabase db;
     Boolean debug;
     Bundle datos;
+    static final int REQUEST_CODE=1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,14 +38,16 @@ public class Actividades extends AppCompatActivity implements View.OnClickListen
         debug=datos.getBoolean("DEBUG");
         bbdd=datos.getString("BBDD");
         version=datos.getInt("VERSION");
-        //rellenoActividades(true);
+
+        muestraActividades();
+        /*
        if(!leeActividades())//si no hay actividades
        {  Actividad actividad  =new Actividad(0,"No hay ninguna Actividad",-1,0.0f,R.drawable.actividad);
            arlActividades.add(actividad);
        }
         final AdaptadorActividades adaptador = new AdaptadorActividades(this,arlActividades);
         listaPadreActiv.setAdapter(adaptador);
-
+*/
         btnAnyadir.setOnClickListener(this);
         btnVolver.setOnClickListener(this);
 
@@ -57,13 +61,31 @@ public class Actividades extends AppCompatActivity implements View.OnClickListen
             case R.id.btnAnyadirlya:
                 i = new Intent(this, ActividadNueva.class);
                 i.putExtras(datos);
-                startActivity(i);
+                startActivityForResult(i,REQUEST_CODE);
                 break;
             case R.id.btnVolverlya:
                 finish();
                 break;
 
         }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        //super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode== Activity.RESULT_OK)
+            muestraActividades();
+
+    }
+
+    private void muestraActividades(){
+        if(!leeActividades())//si no hay actividades
+        {  Actividad actividad  =new Actividad(0,"No hay ninguna Actividad",-1,0.0f,R.drawable.actividad);
+            arlActividades.add(actividad);
+        }
+        final AdaptadorActividades adaptador = new AdaptadorActividades(this,arlActividades);
+        listaPadreActiv.setAdapter(adaptador);
+
     }
     private Boolean leeActividades()
     {
