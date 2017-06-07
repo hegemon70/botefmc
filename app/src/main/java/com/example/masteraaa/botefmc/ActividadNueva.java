@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -16,9 +17,9 @@ import java.util.ArrayList;
 
 public class ActividadNueva extends AppCompatActivity implements View.OnClickListener{
     Button btnVolver,btnInsertar;
+    EditText ediNombre,ediPrecio;
     Spinner spPagadores;
     Participante pagador;
-    String strPagador;
     ArrayList<Participante> arlParticipantes = new ArrayList();
     String bbdd;
     int version;
@@ -33,6 +34,8 @@ public class ActividadNueva extends AppCompatActivity implements View.OnClickLis
         btnInsertar=(Button)findViewById(R.id.btnInsertarlyan);
         btnVolver=(Button)findViewById(R.id.btnVolverlyan);
         spPagadores=(Spinner)findViewById(R.id.spiPagadorlyan);
+        ediNombre=(EditText)findViewById(R.id.ediActividadlyan);
+        ediPrecio=(EditText)findViewById(R.id.ediEuroslyan);
         //recojo bundle
         datos=getIntent().getExtras();
         debug=datos.getBoolean("DEBUG");
@@ -59,7 +62,17 @@ public class ActividadNueva extends AppCompatActivity implements View.OnClickLis
         spPagadores.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                strPagador=String.valueOf(parent.getItemAtPosition(position));
+                //strPagador=String.valueOf(parent.getItemAtPosition(position));
+                if (debug)
+                    Toast.makeText(getApplicationContext(), String.valueOf(parent.getItemAtPosition(position)), Toast.LENGTH_SHORT).show();
+                pagador=arlParticipantes.get(position);
+
+                /*
+                while(! insertaActividad(arlParticipantes.get(position)) ){
+                    Toast.makeText(getApplicationContext(), "rellena todos los campos correctamente", Toast.LENGTH_SHORT).show();
+                }*/
+
+
             }
 
             @Override
@@ -104,6 +117,37 @@ public class ActividadNueva extends AppCompatActivity implements View.OnClickLis
         }
 
     }*/
+  private Boolean insertaActividad(){
+      Boolean exito=false;
+      if (camposValidados())//todos los campos correctos
+      {
+
+      }
+
+      return exito;
+  }
+  private Boolean camposValidados()
+  {   Boolean exito=false;
+      Boolean hayPagador,hayNombre,hayPrecio;
+      hayPagador=false;
+      hayNombre=false;
+      hayPrecio=false;
+
+      if (pagador!=null)//hay un pagador elegido
+          hayPagador=true;
+
+      if (ediPrecio.getText().length()!=0)
+      {
+          
+      }
+
+      if(hayPagador&&hayNombre&&hayPrecio)
+          exito=true;
+
+      return exito;
+  }
+
+
     private void leeParticipantes()//(boolean test)
     {
 
