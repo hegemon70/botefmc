@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     Boolean reset=false;
     Boolean autoRelleno=false;
     //Boolean resetHard=true;//drop tables
-    int version=4;
+    int version=5;
     ArrayList<Participante> arlParticipantes = new ArrayList();
     ArrayList<Actividad> arlActividades =new ArrayList<Actividad>();
     @Override

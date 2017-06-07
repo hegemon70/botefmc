@@ -90,7 +90,9 @@ public class ActividadNueva extends AppCompatActivity implements View.OnClickLis
         Intent i;
         switch (v.getId()) {
             case R.id.btnInsertarlyan:
-                Toast.makeText(this, "aqui insertamos", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(this, "aqui insertamos", Toast.LENGTH_SHORT).show();
+                if(insertaActividad())
+                    finish();
                 break;
             case R.id.btnVolverlyan:
                 finish();
@@ -120,7 +122,31 @@ public class ActividadNueva extends AppCompatActivity implements View.OnClickLis
   private Boolean insertaActividad(){
       Boolean exito=false;
       if (camposValidados())//todos los campos correctos
-      {
+      { String SQLAct,nombre;
+          int icono,idPagador;
+
+          Float precio=null;
+          nombre=ediNombre.getText().toString();
+          icono=R.drawable.actividad;
+          idPagador=pagador.getId();
+          SQLAct="";
+          SQLAct+="INSERT INTO actividades (nombre,idParticipante,precio,icono) VALUES ("
+                  + "\""+ nombre +"\",";
+          SQLAct+= idPagador + ",";
+          SQLAct+=  dameFloat(ediPrecio.getText().toString()) + ","
+                  +  icono + "); ";
+          try{
+              Conexion conexion = new Conexion(this,bbdd,null,version);
+              db=conexion.getWritableDatabase();
+              db.execSQL(SQLAct);
+              db.close();
+              exito=true;
+          }catch(Exception e){
+              if(debug){
+                  Toast.makeText(getApplicationContext(), "error al insertar nueva actividad", Toast.LENGTH_SHORT).show();
+              }
+              db.close();
+          }
 
       }
 
@@ -128,17 +154,26 @@ public class ActividadNueva extends AppCompatActivity implements View.OnClickLis
   }
   private Boolean camposValidados()
   {   Boolean exito=false;
+      Float num=null;
       Boolean hayPagador,hayNombre,hayPrecio;
       hayPagador=false;
       hayNombre=false;
       hayPrecio=false;
 
+        if (ediPrecio.getText().length()!=0)
+        {
+            hayNombre=true;
+        }
       if (pagador!=null)//hay un pagador elegido
           hayPagador=true;
 
       if (ediPrecio.getText().length()!=0)
       {
-          
+          num=dameFloat(ediPrecio.getText().toString());
+          if (num != null)
+          {
+              hayPrecio = true;
+          }
       }
 
       if(hayPagador&&hayNombre&&hayPrecio)
@@ -146,7 +181,13 @@ public class ActividadNueva extends AppCompatActivity implements View.OnClickLis
 
       return exito;
   }
-
+    private Float dameFloat(String txtNum)
+    { Float num =null;
+        try{
+            num=Float.valueOf(txtNum);
+        }catch(Exception e){}
+        return num;
+    }
 
     private void leeParticipantes()//(boolean test)
     {
@@ -165,4 +206,6 @@ public class ActividadNueva extends AppCompatActivity implements View.OnClickLis
         }
         db.close();
     }
+
+
 }
