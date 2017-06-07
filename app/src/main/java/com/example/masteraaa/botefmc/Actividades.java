@@ -21,6 +21,7 @@ public class Actividades extends AppCompatActivity implements View.OnClickListen
     int version;
     SQLiteDatabase db;
     Boolean debug;
+    Bundle datos;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,7 +32,7 @@ public class Actividades extends AppCompatActivity implements View.OnClickListen
         btnVolver=(Button)findViewById(R.id.btnVolverlya);
 
         // RECOJO LOS DATOS DEL INTENT
-        Bundle datos=getIntent().getExtras();
+        datos=getIntent().getExtras();
         debug=datos.getBoolean("DEBUG");
         bbdd=datos.getString("BBDD");
         version=datos.getInt("VERSION");
@@ -55,6 +56,7 @@ public class Actividades extends AppCompatActivity implements View.OnClickListen
         switch (v.getId()) {
             case R.id.btnAnyadirlya:
                 i = new Intent(this, ActividadNueva.class);
+                i.putExtras(datos);
                 startActivity(i);
                 break;
             case R.id.btnVolverlya:

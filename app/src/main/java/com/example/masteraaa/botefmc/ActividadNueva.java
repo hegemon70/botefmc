@@ -20,7 +20,11 @@ public class ActividadNueva extends AppCompatActivity implements View.OnClickLis
     Participante pagador;
     String strPagador;
     ArrayList<Participante> arlParticipantes = new ArrayList();
+    String bbdd;
+    int version;
     SQLiteDatabase db;
+    Bundle datos;
+    Boolean debug;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,6 +33,11 @@ public class ActividadNueva extends AppCompatActivity implements View.OnClickLis
         btnInsertar=(Button)findViewById(R.id.btnInsertarlyan);
         btnVolver=(Button)findViewById(R.id.btnVolverlyan);
         spPagadores=(Spinner)findViewById(R.id.spiPagadorlyan);
+        //recojo bundle
+        datos=getIntent().getExtras();
+        debug=datos.getBoolean("DEBUG");
+        bbdd=datos.getString("BBDD");
+        version=datos.getInt("VERSION");
 
         leeParticipantes();
         //declaro vector del tamaño del arraylist
@@ -98,7 +107,7 @@ public class ActividadNueva extends AppCompatActivity implements View.OnClickLis
     private void leeParticipantes()//(boolean test)
     {
 
-        Conexion conexion = new Conexion(this,"BoteDB",null,1);
+        Conexion conexion = new Conexion(this,bbdd,null,version);
         db=conexion.getReadableDatabase();
         Cursor c=db.rawQuery("SELECT * FROM Participantes",null);
         Toast.makeText(this,"hay "+c.getCount()+" participantes",Toast.LENGTH_LONG).show();
