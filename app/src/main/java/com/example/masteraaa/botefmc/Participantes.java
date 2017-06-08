@@ -18,13 +18,13 @@ import static android.util.Log.println;
 
 public class Participantes extends AppCompatActivity implements View.OnClickListener
 {
-    boolean debug;//=true;
     TextView txvSeparador;
     ListView listaPadrePart;
     Button btnVolver,btnAñadir;
     EditText edtNombre;
     String bbdd;
     int version;
+    boolean debug;
     SQLiteDatabase db;
     ArrayList<Participante> arlParticipantes = new ArrayList();
     @Override
