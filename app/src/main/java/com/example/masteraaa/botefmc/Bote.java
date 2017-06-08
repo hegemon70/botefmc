@@ -39,13 +39,48 @@ public class Bote extends AppCompatActivity {
         });
     }
 
+    private void muestraBote()
+    {
+        calculaBote();
+        String resultado="";
+        for(Participante participante : arlParticipantes)
+        {
+            if(participante.isBooEsPositivo()){
+                resultado +=resultado+" ";
+            }
+
+        }
+    }
     private void calculaBote()
     {
             leeParticipantes();
             leeActividades();
+        int numP=arlParticipantes.size();
         //TODO bucle que recorra cada actividad y suma o reste a los participantes
+        for(Actividad actividad:arlActividades)
+        {
+            repartePrecioActividad(actividad);
+        }
+
+
     }
 
+    private void repartePrecioActividad(Actividad actividad){
+        //int numParticipantes=arlParticipantes.size();
+        Float derrama=actividad.getFloPrecio()/arlParticipantes.size();
+        for (Participante participante : arlParticipantes) {
+            if (actividad.getIntIdPagador()==participante.getId())//es el pagador
+            {
+                float haber = actividad.getFloPrecio()- derrama;
+                participante.setFloSaldo( participante.getFloSaldo()+ haber);
+            }
+            else//no es le pagador
+            {
+               participante.setFloSaldo(participante.getFloSaldo()-derrama);
+            }
+        }
+
+    }
     private Boolean leeParticipantes()//(boolean test)
     {
         boolean exito=false;

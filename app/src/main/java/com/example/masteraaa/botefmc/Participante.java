@@ -76,7 +76,9 @@ public class Participante {
     }
 
     public void setFloSaldo(float floSaldo) {
+
         this.floSaldo = floSaldo;
+        calculaSiNumerosRojos();
     }
 
     public boolean isBooEsPositivo() {
@@ -96,6 +98,12 @@ public class Participante {
         return strSaldo;
     }
 
+    private void calculaSiNumerosRojos(){
+       if (this.getFloSaldo()< 0.0)
+           booEsPositivo=false;
+        else
+            booEsPositivo=true;
+    }
    /*
     private void calculaComoMostrar(){
         if (this.isBooEsPositivo()
