@@ -13,15 +13,22 @@
 
     <ListView
         android:layout_width="match_parent"
-        android:layout_height="238dp"
+        android:layout_height="wrap_content"
         android:id="@+id/lisParticipanteslyp"
         android:layout_weight="0.54" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:id="@+id/separadorParticipanteslyp"
+        android:layout_below="@id/lisParticipanteslyp"
+        />
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/txtNuevolyp"
         android:text="Nuevo:"
-        android:layout_below="@id/lisParticipanteslyp"
+        android:layout_below="@id/separadorParticipanteslyp"
         />
 
     <EditText

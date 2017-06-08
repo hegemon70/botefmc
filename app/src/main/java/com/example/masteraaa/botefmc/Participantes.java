@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -18,6 +19,7 @@ import static android.util.Log.println;
 public class Participantes extends AppCompatActivity implements View.OnClickListener
 {
     boolean debug;//=true;
+    TextView txvSeparador;
     ListView listaPadrePart;
     Button btnVolver,btnAñadir;
     EditText edtNombre;
@@ -30,6 +32,7 @@ public class Participantes extends AppCompatActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_participantes);
 
+        txvSeparador=(TextView)findViewById(R.id.separadorParticipanteslyp);
         listaPadrePart = (ListView) findViewById(R.id.lisParticipanteslyp);
         btnVolver = (Button) findViewById(R.id.btnVolverlyp);
         btnAñadir = (Button) findViewById(R.id.btnAnyadirlyp);

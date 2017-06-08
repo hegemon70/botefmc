@@ -1,5 +1,8 @@
 package com.example.masteraaa.botefmc;
 
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+
 /**
  * Created by fernando on 30/05/2017.
  */
@@ -85,5 +88,29 @@ public class Actividad {
 
     public void setIntIcono(int intIcono) {
         this.intIcono = intIcono;
+    }
+
+    public String  getNombrePagador(SQLiteDatabase db,int idPagador){
+        //this.intIdPagador
+        String nombre="";
+        String query="SELECT nombre FROM participantes WHERE id=";
+        query += idPagador +" ;";
+            try{
+                Cursor cursor =db.rawQuery(query,null);
+                if(cursor!=null){
+                    cursor.moveToFirst();
+                    nombre= cursor.getString(0).toString();
+                }
+                else
+                    nombre="";
+
+            }
+            catch(Exception e)
+            {
+                return nombre;
+            }
+
+
+        return nombre;
     }
 }

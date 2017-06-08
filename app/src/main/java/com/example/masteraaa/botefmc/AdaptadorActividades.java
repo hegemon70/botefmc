@@ -1,6 +1,7 @@
 package com.example.masteraaa.botefmc;
 
 import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
@@ -19,11 +20,20 @@ import java.util.ArrayList;
 public class AdaptadorActividades extends ArrayAdapter {
     private Context contexto;
     private ArrayList<Actividad> datos;
+    SQLiteDatabase db;
 
     public AdaptadorActividades(Context context,  ArrayList<Actividad> datos) {
         super(context, R.layout.listahijaact,datos);
         this.contexto = context;
         this.datos = datos;
+        this.db=null;
+    }
+
+    public AdaptadorActividades(Context context, ArrayList<Actividad> datos, SQLiteDatabase db) {
+        super(context, R.layout.listahijaact,datos);
+        this.contexto = context;
+        this.datos = datos;
+        this.db=db;
     }
     //reprogramamos getView para que no devuelva string sino un view
     public View getView(int position, View convertView,ViewGroup parent)
@@ -40,6 +50,11 @@ public class AdaptadorActividades extends ArrayAdapter {
 
         TextView txtPrecio=(TextView)convertView.findViewById(R.id.txtPreciolyhac);
         txtPrecio.setText(actividad.getStrPrecio());
+
+        TextView txtPagador=(TextView)convertView.findViewById(R.id.txtPagadorlyhac);
+
+       txtPagador.setText(actividad.getNombrePagador(db,actividad.getIntIdPagador()));
+       // db.close();
         return convertView;
     }
 }

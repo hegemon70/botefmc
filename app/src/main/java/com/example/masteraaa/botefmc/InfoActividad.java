@@ -8,7 +8,7 @@ import android.widget.TextView;
 import org.w3c.dom.Text;
 
 public class InfoActividad extends AppCompatActivity {
-    TextView txvNombre,txvPrecio;
+    TextView txvNombre,txvPrecio,txvPagador;
     ImageView imvIcono;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -16,6 +16,7 @@ public class InfoActividad extends AppCompatActivity {
         setContentView(R.layout.activity_info_actividad);
 
         txvNombre=(TextView)findViewById(R.id.nombreActividadlyia);
+        txvPagador=(TextView)findViewById(R.id.pagadorActividadlyia);
         txvPrecio=(TextView)findViewById(R.id.precioActividadlyia);
         imvIcono=(ImageView)findViewById(R.id.imgActividadlyia);
 
@@ -25,6 +26,7 @@ public class InfoActividad extends AppCompatActivity {
 
         txvNombre.setText(bitActividad.getStrNombre());
         txvPrecio.setText(bitActividad.getStrPrecio());
+        txvPagador.setText(bitActividad.getIntIdPagador());
         imvIcono.setImageResource(bitActividad.getIntIcono());
 
     }

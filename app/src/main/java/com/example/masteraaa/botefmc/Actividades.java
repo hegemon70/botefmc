@@ -10,12 +10,16 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
 public class Actividades extends AppCompatActivity implements View.OnClickListener{
     ListView listaPadreActiv;
+    TextView txvSeparador;
     Button btnAnyadir,btnVolver;
     ArrayList<Actividad> arlActividades =new ArrayList<Actividad>();
     String bbdd;
@@ -24,22 +28,29 @@ public class Actividades extends AppCompatActivity implements View.OnClickListen
     Boolean debug;
     Bundle datos;
     static final int REQUEST_CODE=1;
+    static final int ALTURA_VENTANA_ACTIVIDADES=10;
+    static final int ALTURA_ACTIVIDAD=30;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_actividades);
 
+        txvSeparador=(TextView)findViewById(R.id.separadorActividadeslya);
         listaPadreActiv=(ListView)findViewById(R.id.lisActividadeslya);
         btnAnyadir =(Button)findViewById(R.id.btnAnyadirlya);
         btnVolver=(Button)findViewById(R.id.btnVolverlya);
 
+       // ponAlturaSeparador();
         // RECOJO LOS DATOS DEL INTENT
         datos=getIntent().getExtras();
         debug=datos.getBoolean("DEBUG");
         bbdd=datos.getString("BBDD");
         version=datos.getInt("VERSION");
 
-        muestraActividades();
+        Conexion conexion=new Conexion(this,bbdd,null,version);
+        db=conexion.getReadableDatabase();
+        muestraActividades(db);
+        db.close();
         /*
        if(!leeActividades())//si no hay actividades
        {  Actividad actividad  =new Actividad(0,"No hay ninguna Actividad",-1,0.0f,R.drawable.actividad);
@@ -73,19 +84,25 @@ public class Actividades extends AppCompatActivity implements View.OnClickListen
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         //super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode== Activity.RESULT_OK)
-            muestraActividades();
+        if (resultCode== Activity.RESULT_OK){
+            Conexion conexion=new Conexion(this,bbdd,null,version);
+            db=conexion.getReadableDatabase();
+            muestraActividades(db);
+            db.close();
+        }
+
 
     }
 
-    private void muestraActividades(){
+    private void muestraActividades(SQLiteDatabase db){
         if(!leeActividades())//si no hay actividades
         {  Actividad actividad  =new Actividad(0,"No hay ninguna Actividad",-1,0.0f,R.drawable.actividad);
             arlActividades.add(actividad);
         }
-        final AdaptadorActividades adaptador = new AdaptadorActividades(this,arlActividades);
-        listaPadreActiv.setAdapter(adaptador);
 
+        final AdaptadorActividades adaptador = new AdaptadorActividades(this,arlActividades,db);
+        listaPadreActiv.setAdapter(adaptador);
+        //db.close();
     }
     private Boolean leeActividades()
     {
@@ -120,6 +137,11 @@ public class Actividades extends AppCompatActivity implements View.OnClickListen
 
         return exito;
     }
+/* private void ponAlturaSeparador(){
+        int intVentanaFija=ALTURA_ACTIVIDAD*ALTURA_VENTANA_ACTIVIDADES;//quiero dejar una ventana de 10
+         int altura= intVentanaFija-(arlActividades.size()*ALTURA_ACTIVIDAD);
+        txvSeparador.setHeight(altura);
+    }*/
     /*
     private void rellenoActividades(boolean test){
         if(test){

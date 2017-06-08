@@ -12,24 +12,30 @@
 
     <ListView
         android:layout_width="match_parent"
-        android:layout_height="238dp"
+        android:layout_height="wrap_content"
         android:id="@+id/lisActividadeslya"
 
          />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:id="@+id/separadorActividadeslya"
+        android:layout_below="@id/lisActividadeslya"
+        />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/btnAnyadirlya"
         android:text="@string/añadir_txt"
-        android:layout_below="@id/lisActividadeslya"
+        android:layout_below="@id/separadorActividadeslya"
         />
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/btnVolverlya"
         android:text="@string/volver_txt"
-        android:layout_below="@id/lisActividadeslya"
+        android:layout_below="@id/separadorActividadeslya"
         android:layout_toRightOf="@id/btnAnyadirlya"
         />
 

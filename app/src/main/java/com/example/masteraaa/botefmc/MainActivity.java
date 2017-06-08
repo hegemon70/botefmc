@@ -61,9 +61,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         datos.putBoolean("DEBUG",debug);
         datos.putString("BBDD",bbdd);
         datos.putInt("VERSION",version);
-        //datos.putDouble("ALTURA",altura);
-        //datos.putChar("SEXO",sexo);
-
 
         switch (v.getId()){
             case R.id.btnBotelym:
