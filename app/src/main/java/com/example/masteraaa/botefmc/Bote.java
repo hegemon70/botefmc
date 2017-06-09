@@ -4,14 +4,18 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 
 public class Bote extends AppCompatActivity {
     Button btnVolver;
+    ListView lstMostrar;
     String bbdd;
     int version;
     boolean debug;
@@ -24,6 +28,7 @@ public class Bote extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bote);
         btnVolver=(Button)findViewById(R.id.btnVolverlyb);
+        lstMostrar=(ListView)findViewById(R.id.lisBotelyb);
 
         // RECOJO LOS DATOS DEL INTENT
         Bundle datos=getIntent().getExtras();
@@ -37,19 +42,39 @@ public class Bote extends AppCompatActivity {
                 finish();
             }
         });
+        muestraBote();
     }
 
     private void muestraBote()
     {
         calculaBote();
         String resultado="";
+       // String resultados[]=new String[];
         for(Participante participante : arlParticipantes)
         {
             if(participante.isBooEsPositivo()){
-                resultado +=resultado+" ";
+                resultado +=" A "+ participante.getStrNombre()
+                        +" le debe el Bote "+ participante.getStrSaldo()
+                        + " euros ";
             }
-
+            else
+            {
+                resultado +=participante.getStrNombre()
+                        +" debe al bote "+ participante.getStrSaldo()
+                        + " euros ";
+                ;
+            }
+            resultado +="&";
         }
+
+
+        String[] resultados=resultado.split("&");
+        if (debug)
+            Log.d("D",resultado);
+
+        ArrayAdapter<String> adaptador = new ArrayAdapter<String>(this,
+                android.R.layout.simple_list_item_1,android.R.id.text1,resultados);
+        lstMostrar.setAdapter(adaptador);
     }
     private void calculaBote()
     {

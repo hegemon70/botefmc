@@ -91,8 +91,11 @@ public class Participante {
 
     public String getStrSaldo() {
         String strSaldo="*";
+        if (! isBooEsPositivo())//si saldo negativo
+            floSaldo=floSaldo*(-1);//lo vuelvo positivo
         try{
-            strSaldo=String.valueOf(floSaldo);
+            strSaldo=String.format("%.02f",floSaldo);
+            //strSaldo=String.valueOf(floSaldo);
         }catch(Exception e){strSaldo="error cast float";}
 
         return strSaldo;
