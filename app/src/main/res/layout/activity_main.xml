@@ -31,4 +31,17 @@
         android:id="@+id/btnActividadlym"
         android:text="@string/ver_actividad_txt"
         />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/btnAjusteslym"
+        android:text="@string/ver_ajustes_txt"
+        />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/btnSalirlym"
+        android:text="@string/salir_txt"
+        />
 </LinearLayout>

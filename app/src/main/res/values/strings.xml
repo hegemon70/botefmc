@@ -10,4 +10,13 @@
     <string name="actividad_txt">Actividad</string>
     <string name="pagador_txt">Pagado por:</string>
     <string name="precio_txt">Euros:</string>
+    <string name="ver_ajustes_txt">AJUSTES</string>
+    <string name="salir_txt">SALIR</string>
+    <string name="on_txt">ON</string>
+    <string name="off_txt">OFF</string>
+    <string name="modoDemo_txt">MODO  DEMO</string>
+    <string name="debug_txt">MODO DEBUG</string>
+    <string name="reset_txt">MODO RESET</string>
+    <string name="aplicar_txt">APLICAR</string>
+
 </resources>

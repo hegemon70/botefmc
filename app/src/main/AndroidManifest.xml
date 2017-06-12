@@ -20,7 +20,8 @@
         <activity android:name=".Actividades" />
         <activity android:name=".ActividadNueva" />
         <activity android:name=".InfoParticipante" />
-        <activity android:name=".InfoActividad"></activity>
+        <activity android:name=".InfoActividad" />
+        <activity android:name=".Ajustes"></activity>
     </application>
 
 </manifest>

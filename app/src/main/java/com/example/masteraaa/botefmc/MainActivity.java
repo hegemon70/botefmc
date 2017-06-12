@@ -14,7 +14,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-    Button btnBote,btnParticipante,btnActividades;
+    Button btnBote,btnParticipante,btnActividades,btnSalir,btnAjustes;
     SQLiteDatabase db;
     String bbdd="BoteDB1";
     Boolean debug=true;
@@ -32,12 +32,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnBote=(Button)findViewById(R.id.btnBotelym);
         btnParticipante=(Button)findViewById(R.id.btnParticipanteslym);
         btnActividades=(Button)findViewById(R.id.btnActividadlym);
+        btnSalir=(Button)findViewById(R.id.btnSalirlym);
+        btnAjustes=(Button)findViewById(R.id.btnAjusteslym);
         //en el caso de que haya varios botones la clase se implementa
         //view.OnClickListener
         //y en onCreate se le pasa this como argumento
         btnBote.setOnClickListener(this);
         btnParticipante.setOnClickListener(this);
         btnActividades.setOnClickListener(this);
+        btnAjustes.setOnClickListener(this);
+        btnSalir.setOnClickListener(this);
+
         Conexion conexion = new Conexion(this,bbdd,null,version);
         if (autoRelleno){
             db=conexion.getWritableDatabase();
@@ -80,6 +85,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 // ASOCIO EL BUNDLE AL INTENT
                 i.putExtras(datos);
                 startActivity(i);
+                break;
+            case R.id.btnAjusteslym:
+                i =new Intent(this,Ajustes.class);
+                // ASOCIO EL BUNDLE AL INTENT
+                i.putExtras(datos);
+                startActivity(i);
+                break;
+
+            case R.id.btnSalirlym:
+                finish();
                 break;
         }
     }
