@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Switch;
@@ -13,7 +14,7 @@ public class Ajustes extends AppCompatActivity implements View.OnClickListener{
 
     Switch swiDemo,swiDebug,swiReset;
     Button btnAplicar,btnVolver;
-
+    boolean demo,debug,reset;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,6 +32,7 @@ public class Ajustes extends AppCompatActivity implements View.OnClickListener{
         swiDebug.setOnClickListener(this);
         swiReset.setOnClickListener(this);
 
+        leePreferenciasYMuestraSwitches();
     }
 
     @Override
@@ -57,33 +59,38 @@ public class Ajustes extends AppCompatActivity implements View.OnClickListener{
 
     }
 
-    private void aplicaCambios(SharedPreferences preferencias,boolean debug,boolean demo,boolean reset)
+    private void aplicaCambios(SharedPreferences preferencias)
     {
-        debug=(swiDebug.isChecked())?true:false;
-        demo=(swiDemo.isChecked())?true:false;
-        reset=(swiReset.isChecked())?true:false;
+        actualizaValoresSegunSwitches();
+        guardaCambios(preferencias);
+    }
+    private void guardaCambios(SharedPreferences preferencias)
+    {
         SharedPreferences.Editor editor=preferencias.edit();
         editor.putBoolean("DEBUG",debug);
         editor.putBoolean("DEMO",demo);
         editor.putBoolean("RESET",reset);
         editor.commit();
     }
-    private void leePreferencias(SharedPreferences preferencias,boolean debug,boolean demo,boolean reset)
+    private void leePreferencias(SharedPreferences preferencias)
     {
         debug=preferencias.getBoolean("DEBUG",false);
         demo=preferencias.getBoolean("DEMO",false);
         reset=preferencias.getBoolean("RESET",false);
     }
-    /*
-    private boolean hayCambios(boolean debug,boolean demo,boolean reset)
+
+    private boolean hayCambios()
     {   boolean cambioDemo=false;
         boolean cambioDebug=false;
         boolean cambioReset=false;
         boolean cambios=false;
-        cambioDebug= swiDebug.isChecked()&& debug;
+        cambioDemo=swiDemo.isChecked()^demo;//xor de devuelve true si son distintos
+        cambioDebug= swiDebug.isChecked()^debug;
+        cambioReset=swiReset.isChecked()^reset;
+        cambios=(cambioDemo||cambioDebug||cambioReset);//devuelve true si hay algun true
         return cambios;
     }
-    */
+
     private void calculaAjustes(){
         final SharedPreferences preferencias=getSharedPreferences("configuracion",MODE_PRIVATE);
         boolean debug,demo,reset;
@@ -91,18 +98,57 @@ public class Ajustes extends AppCompatActivity implements View.OnClickListener{
         demo=false;
         reset=false;
 
-        leePreferencias(preferencias,debug,demo,reset);
-        aplicaCambios(preferencias,debug,demo,reset);
+        leePreferencias(preferencias);
 
-
-        if (debug){
-            String muestraBoolean="demo: ";
-            muestraBoolean += (demo)?"true ":"false ";
-            muestraBoolean+="debug:true ";
-            muestraBoolean="reset: ";
-            muestraBoolean += (demo)?"true ":"false";
-
+        if (hayCambios())
+        {
+            aplicaCambios(preferencias);
         }
+
+        debugeaResultado();
+
+
+    }
+
+    private void debugeaResultado(){
+        String muestraBoolean="demo: ";
+        muestraBoolean += (demo)?"true ":"false ";
+        muestraBoolean += "debug:true ";
+        muestraBoolean +="reset: ";
+        muestraBoolean += (demo)?"true ":"false";
+        if (debug){
+            Toast.makeText(this, muestraBoolean, Toast.LENGTH_LONG).show();
+        }
+        else
+        {
+            Log.d("D", muestraBoolean);
+        }
+    }
+    private void posicionaSwitches()
+    {
+        swiDemo.setChecked(demo);
+        swiDebug.setChecked(debug);
+        swiReset.setChecked(reset);
+    }
+    private void actualizaValoresSegunSwitches()
+    {
+        //boolean debug, boolean demo,boolean reset) {
+        debug=(swiDebug.isChecked())?true:false;
+        demo=(swiDemo.isChecked())?true:false;
+        reset=(swiReset.isChecked())?true:false;
+    }
+
+    private void leePreferenciasYMuestraSwitches()
+    {
+        final SharedPreferences preferencias=getSharedPreferences("configuracion",MODE_PRIVATE);
+        //boolean debug,demo,reset;
+        debug=false;
+        demo=false;
+        reset=false;
+        leePreferencias(preferencias);
+        //,debug,demo,reset);
+        posicionaSwitches();
+        //debug,demo,reset);
 
     }
 }

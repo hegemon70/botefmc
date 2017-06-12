@@ -2,9 +2,11 @@ package com.example.masteraaa.botefmc;
 
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.support.v4.app.NotificationCompatSideChannelService;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -17,9 +19,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     Button btnBote,btnParticipante,btnActividades,btnSalir,btnAjustes;
     SQLiteDatabase db;
     String bbdd="BoteDB1";
-    Boolean debug=true;
-    Boolean reset=false;
+    Boolean debug;//=true;
+    Boolean reset;//=false;
     Boolean autoRelleno=false;
+    Boolean demoActivada;
+    Boolean demo;
     //Boolean resetHard=true;//drop tables
     int version=5;
     ArrayList<Participante> arlParticipantes = new ArrayList();
@@ -43,17 +47,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnAjustes.setOnClickListener(this);
         btnSalir.setOnClickListener(this);
 
+        leePreferencias();
+
         Conexion conexion = new Conexion(this,bbdd,null,version);
-        if (autoRelleno){
-            db=conexion.getWritableDatabase();
-            seed(db);
-            db.close();
-        }
+        gestionaPreferencias(conexion);
+/*
         if (reset){
             db=conexion.getWritableDatabase();
             vaciaTablas();
             db.close();
         }
+
+        if (autoRelleno){
+            db=conexion.getWritableDatabase();
+            seed(db);
+            db.close();
+        }
+   */
 
     }
 
@@ -66,6 +76,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         datos.putBoolean("DEBUG",debug);
         datos.putString("BBDD",bbdd);
         datos.putInt("VERSION",version);
+        datos.putBoolean("DEMOACTIVADA",demoActivada);
 
         switch (v.getId()){
             case R.id.btnBotelym:
@@ -254,5 +265,83 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Toast.makeText(this, SQLIPar, Toast.LENGTH_LONG).show();
 
         return SQLIPar;
+    }
+
+    private void leePreferencias()
+    {
+        final SharedPreferences preferencias=getSharedPreferences("configuracion",MODE_PRIVATE);
+        debug=false;
+        demo=false;
+        reset=false;
+        demoActivada=false;
+        debug=preferencias.getBoolean("DEBUG",false);
+        demo=preferencias.getBoolean("DEMO",false);
+        demoActivada=preferencias.getBoolean("DEMOACTIVADA",false);
+        reset=preferencias.getBoolean("RESET",false);
+    }
+    private void gestionaPreferencias(Conexion conexion)
+    {
+        if (demo)
+        {
+            if(!demoActivada)//PRIMER ARRANQUE EN DEMO
+            {
+                reset=true;//VACIAREMOS LAS TABLAS DE LO ANTERIOR
+                autoRelleno=true;
+                activaflagDemoActivada();
+            }
+            else //SUBSIGUIENTES ARRANQUES EN MODO DEMO
+            {
+                autoRelleno=false;
+            }
+
+        }
+        else//demo: false
+        {
+            if(demoActivada)//ULTIMO ARRANQUE EN MODO DEMO, NO QUEREMOS NINGUNO MAS
+            {
+                reset=true; //VACIAREMOS LAS TABLAS DE LA DEMO
+                desactivaflagDemoActivada();
+            }
+        }
+
+        if (reset){
+            db=conexion.getWritableDatabase();
+            vaciaTablas();
+            db.close();
+            desactivaReseteo();//NO QUEREMOS QUE RESETEE DESDE AHORA NI EN EL SIGUIENTE ARRANQUE
+        }
+
+        if (autoRelleno)//
+        {
+            db=conexion.getWritableDatabase();
+            seed(db);
+            db.close();
+            autoRelleno=false;
+
+        }
+    }
+    private void desactivaReseteo()
+    {
+        final SharedPreferences preferencias=getSharedPreferences("configuracion",MODE_PRIVATE);
+        SharedPreferences.Editor editor=preferencias.edit();
+        reset=false;//cambiamos el valor de reset en el actual arranque
+        editor.putBoolean("RESET",reset);//cambiamos el valor de reset para el proximo arranque
+        editor.commit();
+    }
+    private void activaflagDemoActivada()
+    {
+        final SharedPreferences preferencias=getSharedPreferences("configuracion",MODE_PRIVATE);
+        SharedPreferences.Editor editor=preferencias.edit();
+        demoActivada=true;//cambiamos el valor de actual
+        editor.putBoolean("DEMOACTIVADA",demoActivada);//cambiamos el valor demoactivada para el proximo arranque
+        editor.commit();
+    }
+    private void desactivaflagDemoActivada()
+    {
+        final SharedPreferences preferencias=getSharedPreferences("configuracion",MODE_PRIVATE);
+        SharedPreferences.Editor editor=preferencias.edit();
+        demoActivada=false;//cambiamos el valor actual
+        editor.putBoolean("DEMOACTIVADA",demoActivada);//cambiamos el valor demoactivada para el proximo arranque
+        editor.commit();
     }
 }
