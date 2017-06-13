@@ -45,7 +45,6 @@
         android:id="@+id/lisActividadeslya"
         android:layout_below="@id/separador1lya"
           />
-    <!--android:layout_above="@id/imgModoDemolya"-->
 
 
     <TextView

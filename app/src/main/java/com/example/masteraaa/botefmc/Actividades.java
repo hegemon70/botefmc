@@ -123,8 +123,9 @@ public class Actividades extends AppCompatActivity implements View.OnClickListen
             Toast.makeText(this,"hay "+c.getCount()+" actividades",Toast.LENGTH_LONG).show();
             if (c.getCount()!=0)
             {
-                if (c.moveToFirst()){
-                   // int i=0;
+                if (c.moveToFirst())
+                {
+                   arlActividades.clear();//vaciamos la referencia vacia
                     do{
                         //construimos un objeto actividad IdActividad: 0 ,Nombre: 1,IdPagador: 2, Precio: 3, Icono: 4
                         Actividad actividad  =new Actividad(c.getInt(0),c.getString(1),c.getInt(2),c.getFloat(3),c.getInt(4));

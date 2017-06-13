@@ -26,7 +26,8 @@ public class Bote extends AppCompatActivity {
     ArrayList<Actividad> arlActividades =new ArrayList<Actividad>();
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bote);
 
@@ -39,7 +40,7 @@ public class Bote extends AppCompatActivity {
         debug=datos.getBoolean("DEBUG");
         bbdd=datos.getString("BBDD");
         version=datos.getInt("VERSION");
-        demo=datos.getBoolean("DEMOACTIVA");
+        demo=datos.getBoolean("DEMOACTIVADA");
 
         if(demo)
         {
@@ -58,7 +59,17 @@ public class Bote extends AppCompatActivity {
     {
         calculaBote();
         String resultado="";
-       // String resultados[]=new String[];
+        int numP=arlParticipantes.size();
+        int numA=arlActividades.size();
+        if (numP==0)
+        {
+            if (numA==0)
+            {
+                resultado="No hay Participantes ni Actividades ";
+            }
+        }
+
+
         for(Participante participante : arlParticipantes)
         {
             if(participante.isBooEsPositivo()){
@@ -89,7 +100,7 @@ public class Bote extends AppCompatActivity {
     {
             leeParticipantes();
             leeActividades();
-        int numP=arlParticipantes.size();
+
         //TODO bucle que recorra cada actividad y suma o reste a los participantes
         for(Actividad actividad:arlActividades)
         {
