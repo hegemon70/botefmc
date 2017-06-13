@@ -8,7 +8,8 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <!--<activity android:name=".MainActivity">-->
+        <activity android:name=".SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -21,7 +22,8 @@
         <activity android:name=".ActividadNueva" />
         <activity android:name=".InfoParticipante" />
         <activity android:name=".InfoActividad" />
-        <activity android:name=".Ajustes"></activity>
+        <activity android:name=".Ajustes" />
+        <activity android:name=".MainActivity"></activity>
     </application>
 
 </manifest>

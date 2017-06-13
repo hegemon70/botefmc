@@ -8,25 +8,30 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 
 public class Bote extends AppCompatActivity {
+    ImageView imgModoDemo;
     Button btnVolver;
     ListView lstMostrar;
     String bbdd;
     int version;
-    boolean debug;
+    boolean debug,demo;
     SQLiteDatabase db;
     ArrayList<Participante> arlParticipantes = new ArrayList();
     ArrayList<Actividad> arlActividades =new ArrayList<Actividad>();
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bote);
+
+        imgModoDemo=(ImageView)findViewById(R.id.imgModoDemolyb);
         btnVolver=(Button)findViewById(R.id.btnVolverlyb);
         lstMostrar=(ListView)findViewById(R.id.lisBotelyb);
 
@@ -35,7 +40,12 @@ public class Bote extends AppCompatActivity {
         debug=datos.getBoolean("DEBUG");
         bbdd=datos.getString("BBDD");
         version=datos.getInt("VERSION");
+        demo=datos.getBoolean("DEMOACTIVADA");
 
+        if(demo)
+        {
+            imgModoDemo.setVisibility(View.VISIBLE);
+        }
         btnVolver.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -49,7 +59,17 @@ public class Bote extends AppCompatActivity {
     {
         calculaBote();
         String resultado="";
-       // String resultados[]=new String[];
+        int numP=arlParticipantes.size();
+        int numA=arlActividades.size();
+        if (numP==0)
+        {
+            if (numA==0)
+            {
+                resultado="No hay Participantes ni Actividades ";
+            }
+        }
+
+
         for(Participante participante : arlParticipantes)
         {
             if(participante.isBooEsPositivo()){
@@ -80,7 +100,7 @@ public class Bote extends AppCompatActivity {
     {
             leeParticipantes();
             leeActividades();
-        int numP=arlParticipantes.size();
+
         //TODO bucle que recorra cada actividad y suma o reste a los participantes
         for(Actividad actividad:arlActividades)
         {

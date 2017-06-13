@@ -10,6 +10,14 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.masteraaa.botefmc.ActividadNueva">
 
+    <ImageView
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:id="@+id/imgModoDemolyan"
+        android:layout_marginLeft="250dp"
+        android:src="@drawable/mododemo"
+        android:visibility="invisible"
+        />
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

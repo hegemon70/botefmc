@@ -10,12 +10,43 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.masteraaa.botefmc.Actividades">
 
+    <ImageView
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:id="@+id/imgModoDemolya"
+        android:layout_marginLeft="230dp"
+        android:src="@drawable/mododemo"
+        android:visibility="invisible"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/lblTitulolya"
+        android:text="@string/titulo_actividad_txt"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="10dp"
+        />
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="10dp"
+        android:background="@drawable/separador"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:id="@+id/separador1lya"
+        android:layout_below="@id/lblTitulolya"
+        />
+
     <ListView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/lisActividadeslya"
+        android:layout_below="@id/separador1lya"
+          />
 
-         />
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="30dp"

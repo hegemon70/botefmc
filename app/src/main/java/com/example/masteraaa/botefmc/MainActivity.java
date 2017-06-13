@@ -10,6 +10,7 @@ import android.support.v4.app.NotificationCompatSideChannelService;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -17,6 +18,7 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     Button btnBote,btnParticipante,btnActividades,btnSalir,btnAjustes;
+    ImageView imgModoDemo;
     SQLiteDatabase db;
     String bbdd="BoteDB1";
     Boolean debug;//=true;
@@ -33,6 +35,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        imgModoDemo=(ImageView)findViewById(R.id.imgModoDemolym);
         btnBote=(Button)findViewById(R.id.btnBotelym);
         btnParticipante=(Button)findViewById(R.id.btnParticipanteslym);
         btnActividades=(Button)findViewById(R.id.btnActividadlym);
@@ -51,19 +54,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Conexion conexion = new Conexion(this,bbdd,null,version);
         gestionaPreferencias(conexion);
-/*
-        if (reset){
-            db=conexion.getWritableDatabase();
-            vaciaTablas();
-            db.close();
+        if(demo)
+        {
+            imgModoDemo.setVisibility(View.VISIBLE);
         }
-
-        if (autoRelleno){
-            db=conexion.getWritableDatabase();
-            seed(db);
-            db.close();
-        }
-   */
 
     }
 
@@ -283,6 +277,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     {
         if (demo)
         {
+
             if(!demoActivada)//PRIMER ARRANQUE EN DEMO
             {
                 reset=true;//VACIAREMOS LAS TABLAS DE LO ANTERIOR

@@ -11,6 +11,10 @@
     <string name="pagador_txt">Pagado por:</string>
     <string name="precio_txt">Euros:</string>
     <string name="ver_ajustes_txt">AJUSTES</string>
+    <string name="titulo_bote_txt">RESULTADO BOTE</string>
+    <string name="titulo_actividad_txt">ACTIVIDADES</string>
+    <string name="titulo_participante_txt">PARTICIPANTES</string>
+    <string name="titulo_participante_nuevo_txt">PARTICIPANTE NUEVO</string>
     <string name="salir_txt">SALIR</string>
     <string name="on_txt">ON</string>
     <string name="off_txt">OFF</string>

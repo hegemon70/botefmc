@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,13 +19,14 @@ import static android.util.Log.println;
 
 public class Participantes extends AppCompatActivity implements View.OnClickListener
 {
+    ImageView imgModoDemo;
     TextView txvSeparador;
     ListView listaPadrePart;
     Button btnVolver,btnAñadir;
     EditText edtNombre;
     String bbdd;
     int version;
-    boolean debug;
+    boolean debug,demo;
     SQLiteDatabase db;
     ArrayList<Participante> arlParticipantes = new ArrayList();
     @Override
@@ -32,6 +34,7 @@ public class Participantes extends AppCompatActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_participantes);
 
+        imgModoDemo=(ImageView)findViewById(R.id.imgModoDemolyp);
         txvSeparador=(TextView)findViewById(R.id.separadorParticipanteslyp);
         listaPadrePart = (ListView) findViewById(R.id.lisParticipanteslyp);
         btnVolver = (Button) findViewById(R.id.btnVolverlyp);
@@ -48,6 +51,12 @@ public class Participantes extends AppCompatActivity implements View.OnClickList
         debug=datos.getBoolean("DEBUG");
         bbdd=datos.getString("BBDD");
         version=datos.getInt("VERSION");
+        demo=datos.getBoolean("DEMOACTIVADA");
+
+        if(demo)
+        {
+            imgModoDemo.setVisibility(View.VISIBLE);
+        }
         if(!leeParticipantes()){
             Participante vacio = new Participante("No hay Participantes",0f);
             arlParticipantes.add(vacio);

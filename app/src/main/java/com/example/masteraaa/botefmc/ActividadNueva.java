@@ -11,12 +11,14 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 
 public class ActividadNueva extends AppCompatActivity implements View.OnClickListener{
+    ImageView imgModoDemo;
     Button btnVolver,btnInsertar;
     EditText ediNombre,ediPrecio;
     Spinner spPagadores;
@@ -26,13 +28,14 @@ public class ActividadNueva extends AppCompatActivity implements View.OnClickLis
     int version;
     SQLiteDatabase db;
     Bundle datos;
-    Boolean debug;
+    Boolean debug,demo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_actividad_nueva);
 
+        imgModoDemo=(ImageView)findViewById(R.id.imgModoDemolyan);
         btnInsertar=(Button)findViewById(R.id.btnInsertarlyan);
         btnVolver=(Button)findViewById(R.id.btnVolverlyan);
         spPagadores=(Spinner)findViewById(R.id.spiPagadorlyan);
@@ -43,7 +46,12 @@ public class ActividadNueva extends AppCompatActivity implements View.OnClickLis
         debug=datos.getBoolean("DEBUG");
         bbdd=datos.getString("BBDD");
         version=datos.getInt("VERSION");
+        demo=datos.getBoolean("DEMOACTIVADA");
 
+        if(demo)
+        {
+            imgModoDemo.setVisibility(View.VISIBLE);
+        }
         leeParticipantes();
         //declaro vector del tamaño del arraylist
         String vecNombres[]=new String[arlParticipantes.size()];
