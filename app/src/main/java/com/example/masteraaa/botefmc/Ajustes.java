@@ -37,7 +37,7 @@ public class Ajustes extends AppCompatActivity implements View.OnClickListener{
 
     @Override
     public void onClick(View v) {
-        Intent i;
+        //Intent i;
         switch (v.getId()) {
             case R.id.BtnSwitchDemolyaj:
                 Toast.makeText(this, "borra los datos y crea unos ficticios", Toast.LENGTH_LONG).show();
@@ -103,9 +103,14 @@ public class Ajustes extends AppCompatActivity implements View.OnClickListener{
         if (hayCambios())
         {
             aplicaCambios(preferencias);
+            Intent i;
+            i =new Intent(this,SplashScreen.class);
+            startActivity(i);
         }
 
         debugeaResultado();
+
+
 
 
     }
