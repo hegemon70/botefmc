@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,6 +19,7 @@ import org.w3c.dom.Text;
 import java.util.ArrayList;
 
 public class Actividades extends AppCompatActivity implements View.OnClickListener{
+    ImageView imgModoDemo;
     ListView listaPadreActiv;
     TextView txvSeparador;
     Button btnAnyadir,btnVolver;
@@ -25,7 +27,7 @@ public class Actividades extends AppCompatActivity implements View.OnClickListen
     String bbdd;
     int version;
     SQLiteDatabase db;
-    Boolean debug;
+    Boolean debug,demo;
     Bundle datos;
     static final int REQUEST_CODE=1;
     static final int ALTURA_VENTANA_ACTIVIDADES=10;
@@ -35,6 +37,7 @@ public class Actividades extends AppCompatActivity implements View.OnClickListen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_actividades);
 
+        imgModoDemo=(ImageView)findViewById(R.id.imgModoDemolya);
         txvSeparador=(TextView)findViewById(R.id.separadorActividadeslya);
         listaPadreActiv=(ListView)findViewById(R.id.lisActividadeslya);
         btnAnyadir =(Button)findViewById(R.id.btnAnyadirlya);
@@ -46,7 +49,12 @@ public class Actividades extends AppCompatActivity implements View.OnClickListen
         debug=datos.getBoolean("DEBUG");
         bbdd=datos.getString("BBDD");
         version=datos.getInt("VERSION");
+        demo=datos.getBoolean("DEMOACTIVADA");
 
+        if(demo)
+        {
+            imgModoDemo.setVisibility(View.VISIBLE);
+        }
         Conexion conexion=new Conexion(this,bbdd,null,version);
         db=conexion.getReadableDatabase();
         muestraActividades(db);

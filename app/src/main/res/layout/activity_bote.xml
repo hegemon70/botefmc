@@ -10,10 +10,44 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.masteraaa.botefmc.Bote">
 
+    <ImageView
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/mododemo"
+
+        android:id="@+id/imgModoDemolyb"
+        android:visibility="invisible"
+        />
+        <!--android:layout_marginLeft="250dp" -->
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/lblTitulolyb"
+        android:text="@string/titulo_bote_txt"
+
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="10dp"
+        />
+        <!--
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="20dp"
+        -->
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="10dp"
+        android:background="@drawable/separador"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:id="@+id/separador1lyb"
+
+        />
     <ListView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/lisBotelyb"
+
         />
 
     <Button

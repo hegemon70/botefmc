@@ -11,11 +11,43 @@
     tools:context="com.example.masteraaa.botefmc.Participantes"
     android:weightSum="1">
 
+    <ImageView
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:id="@+id/imgModoDemolyp"
+        android:layout_marginLeft="250dp"
+        android:src="@drawable/mododemo"
+        android:visibility="invisible"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/lblTitulolyp"
+        android:text="@string/titulo_actividad_txt"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="10dp"
+        />
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="10dp"
+        android:background="@drawable/separador"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:id="@+id/separador1lyp"
+        android:layout_below="@id/lblTitulolyp"
+        />
+
     <ListView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/lisParticipanteslyp"
-        android:layout_weight="0.54" />
+        android:layout_weight="0.54"
+        android:layout_below="@id/separador1lyp"
+        />
 
     <TextView
         android:layout_width="match_parent"

@@ -8,17 +8,19 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 
 public class Bote extends AppCompatActivity {
+    ImageView imgModoDemo;
     Button btnVolver;
     ListView lstMostrar;
     String bbdd;
     int version;
-    boolean debug;
+    boolean debug,demo;
     SQLiteDatabase db;
     ArrayList<Participante> arlParticipantes = new ArrayList();
     ArrayList<Actividad> arlActividades =new ArrayList<Actividad>();
@@ -27,6 +29,8 @@ public class Bote extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bote);
+
+        imgModoDemo=(ImageView)findViewById(R.id.imgModoDemolyb);
         btnVolver=(Button)findViewById(R.id.btnVolverlyb);
         lstMostrar=(ListView)findViewById(R.id.lisBotelyb);
 
@@ -35,7 +39,12 @@ public class Bote extends AppCompatActivity {
         debug=datos.getBoolean("DEBUG");
         bbdd=datos.getString("BBDD");
         version=datos.getInt("VERSION");
+        demo=datos.getBoolean("DEMOACTIVA");
 
+        if(demo)
+        {
+            imgModoDemo.setVisibility(View.VISIBLE);
+        }
         btnVolver.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

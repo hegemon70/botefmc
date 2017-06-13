@@ -11,6 +11,15 @@
     android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context="com.example.masteraaa.botefmc.MainActivity">
 
+    <ImageView
+    android:layout_width="50dp"
+    android:layout_height="50dp"
+        android:id="@+id/imgModoDemolym"
+    android:src="@drawable/mododemo"
+    android:layout_marginLeft="250dp"
+    android:visibility="invisible"
+        />
+    <!--android:visibility="invisible"-->
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
